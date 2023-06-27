@@ -5,16 +5,17 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react';
 
 async function Page() {
-  const [responseData, setResponseData] = useState(null);
+ 
   
+  /* Utilizada para obtener el parametro code de la URL */
   const searchParams = useSearchParams()
   const code = searchParams.get('code')
 
-  const tenant = 'e31dd0f2-de23-4dd1-8dea-3fed57f15c2c';
-
+  /* Parametros URL*/
+  const tenant = process.env.TENANT;
   const endpointToken = `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/token`;
-  const clientID = 'e064c356-8ac9-4cb7-8041-936fa3fb9a56';
-  const clientSecret = '5I68Q~TRsKa.h1H6TPZP_XMWvDZTBGcEYabfYatF';
+  const clientID = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
   const redirectURI = 'http://localhost:3000/dashboard/';  
 
   const params = new URLSearchParams();
@@ -25,6 +26,7 @@ async function Page() {
   params.append('code', code);
    
   try {
+    /* Realizando la consulta del Token de acceso*/
     const response = await axios.post(endpointToken, params);
     const accessToken = response.data.access_token;
     const expiresIn = response.data.expires_in;
@@ -38,20 +40,23 @@ async function Page() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    
+    const apellidos = response1.data.surname;
     console.log(response1.data)
 
-    setResponseData(response1.data);
+    return apellidos
 
     //console.log('Token de Acceso:', accessToken);
     //console.log('Expira en:', expiresIn);
   } catch (error) {
-    console.error('Error al solicitar el token de acceso:', error);
+    
   }
 
    return (
+    
     <>
-      {responseData ? (
-        <h1>{responseData.mail}</h1>
+      {apellidos ? (
+        <h1>{apellidos}</h1>
       ) : (
         <h1>Loading...</h1>
       )}
