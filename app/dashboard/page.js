@@ -4,8 +4,7 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react';
 
-async function Page() {
- 
+async function Page() { 
   
   /* Utilizada para obtener el parametro code de la URL */
   const searchParams = useSearchParams()
@@ -24,6 +23,8 @@ async function Page() {
   params.append('client_secret', clientSecret);
   params.append('redirect_uri', redirectURI);
   params.append('code', code);
+  
+  /* Final de la recogida de parámetros */
    
   try {
     /* Realizando la consulta del Token de acceso*/
@@ -45,21 +46,17 @@ async function Page() {
     console.log(response1.data)
 
     return apellidos
-
-    //console.log('Token de Acceso:', accessToken);
-    //console.log('Expira en:', expiresIn);
   } catch (error) {
     
   }
 
-   return (
-    
+   return (    
     <>
       {apellidos ? (
         <h1>{apellidos}</h1>
       ) : (
         <h1>Loading...</h1>
-      )}
+      )}     
     </>
    );
 }
