@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react';
 
-async function Page() { 
+async function Token(){
   
   /* Utilizada para obtener el parametro code de la URL */
   const searchParams = useSearchParams()
@@ -42,14 +42,16 @@ async function Page() {
       },
     });
     
-    const apellidos = response1.data.surname;
-    console.log(response1.data)
+    apellido = response1.data.username;
 
-    return apellidos
+    return apellido;        
   } catch (error) {
     
   }
+}
 
+async function Page() { 
+  
    return (    
     <>
       {apellidos ? (
